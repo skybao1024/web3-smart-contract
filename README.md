@@ -6,7 +6,7 @@
 ## Setup
 
 ```
-cd Smart-Contract-Tool
+cd web3-smart-contract
 yarn install
 ```
 cp .env.example .env
