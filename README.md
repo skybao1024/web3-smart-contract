@@ -101,7 +101,7 @@ const tokenHandleObj = new tokenHandle();
 tokenHandleObj.setAbi('ctc_custom')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
-  .setContract(process.env.CUSTOM_CONTRACT_ADDRESS) // 只能合约地址
+  .setContract(process.env.CUSTOM_CONTRACT_ADDRESS) // 智能合约地址
   .setGwei(7)
   .setTransferMethod('sendCandy') // 合约批量转账对应的方法
   .massTransfer(data['address'], data['amount'])
