@@ -170,9 +170,10 @@ class TokenHandle {
       gasLimit: this.web3.utils.toHex(gasLimit),
       to: this.token_contract,
       value: this.web3.utils.toHex(0),
-      data: contract.methods[this.transfer_method](address, amountList).encodeABI(), // sendToken 自定义合约批量打币方法
+      data: contract.methods[this.transfer_method](address, amountList).encodeABI(), // 自定义合约批量打币方法
       chainId: parseInt(process.env.CHAIN_ID),
     };
+    console.log(`txParams is: ${txParams} \n`);
     const tx = new Transaction(txParams);
     tx.sign(this.privateKey);
     const confirmation = await this.confirmation(tx);

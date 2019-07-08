@@ -5,11 +5,11 @@ require('./env');
 const tokenHandle = require('./include/token_handle');
 
 const data = {
-  'address': '0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8',
-  'amount': 10,
+  'address': '0xaf40d7a404bfbd10432c05ad92e2df7bdeca8c52',
+  'amount': 100000,
 };
 const tokenHandleObj = new tokenHandle();
-tokenHandleObj.setAbi('ctc')
+tokenHandleObj.setAbi('sky')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
   .setContract(process.env.MAIN_CONTRACT_ADDRESS)

@@ -112,3 +112,9 @@ tokenHandleObj.setAbi('ctc_custom')
 
 ```
 
+## 合约文件
+
+```
+案例中使用的合约文件在 src/resource/sol 目录下，可以自由修改生成自己的ERC20代币和批量转账合约。
+```
+

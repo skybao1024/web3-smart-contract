@@ -9,11 +9,11 @@ const data = {
   'amount': [10,10],
 };
 const tokenHandleObj = new tokenHandle();
-tokenHandleObj.setAbi('ctc_custom')
+tokenHandleObj.setAbi('sky_custom')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
   .setContract(process.env.CUSTOM_CONTRACT_ADDRESS)
-  .setGwei(7)
+  .setGwei(20)
   .setTransferMethod('sendCandy')
   .massTransfer(data['address'], data['amount'])
   .then((res) => {
