@@ -113,7 +113,10 @@ tokenHandleObj.setAbi('ctc')
 
 // Mass Transfer
 const data = {
-  'address': ['0xb59a6763b39e9257fe516874cf8bb680303ac444', '0xd8a41aaa9e0515a9f6f4e865e5220773273cfc88'],
+  'address': [
+    '0xb59a6763b39e9257fe516874cf8bb680303ac444', 
+    '0xd8a41aaa9e0515a9f6f4e865e5220773273cfc88'
+  ],
   'amount': [10,10],
 };
 const tokenHandleObj = new tokenHandle();
