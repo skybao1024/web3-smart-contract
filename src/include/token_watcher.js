@@ -11,7 +11,7 @@ class TokenWatcher {
   }
 
   /**
-   * 设置合约
+   * Set the contract address to use
    * @param contract
    * @returns {TokenWatcher}
    */
@@ -21,7 +21,7 @@ class TokenWatcher {
   }
 
   /**
-   * 引入子合约ABI
+   * Set up the contract ABI
    * @param name
    * @returns {TokenWatcher}
    */
@@ -31,7 +31,7 @@ class TokenWatcher {
   }
 
   /**
-   * 设置监控From地址
+   * Set up the from address
    * @param address
    * @returns {TokenWatcher}
    */
@@ -41,7 +41,7 @@ class TokenWatcher {
   }
 
   /**
-   * 设置监控To地址
+   * Set up the to address
    * @param address
    * @returns {TokenWatcher}
    */
@@ -51,7 +51,7 @@ class TokenWatcher {
   }
 
   /**
-   * 设置监听Amount
+   * Set up the amount
    * @param amount
    * @returns {TokenWatcher}
    */
@@ -61,7 +61,7 @@ class TokenWatcher {
   }
 
   /**
-   * ETH 监听转账记录
+   * Track the ETH transactions
    */
   watchEtherTransfers() {
     this.watch_type = 1;
@@ -93,7 +93,7 @@ class TokenWatcher {
   }
 
   /**
-   * ERC20 token 监听转账记录
+   * Track the ERC20 token transactions
    */
   watchTokenTransfers() {
     this.watch_type = 2;
@@ -107,10 +107,8 @@ class TokenWatcher {
     // Subscribe to Transfer events matching filter criteria
     tokenContract.events.Transfer(options)
       .on('data', async(event) => {
-        console.log('监控到新的转账信息');
-        console.log(event);
+        console.log('Receive new transaction');
         const returnValues = event.returnValues;
-        console.log(returnValues);
         // Instantiate web3 with HttpProvider
         this.openHttp();
         if (this.validateTransaction(returnValues)) {
@@ -179,7 +177,7 @@ class TokenWatcher {
   }
 
   /**
-   * 验证from address
+   * Verify the from address
    * @param trx
    * @returns {boolean}
    */
@@ -201,7 +199,7 @@ class TokenWatcher {
   }
 
   /**
-   * 验证to address
+   * Verify the to address
    * @param trx
    * @returns {boolean}
    */
@@ -223,7 +221,7 @@ class TokenWatcher {
   }
 
   /**
-   * 验证 Amount
+   * Verify the Amount
    * @param trx
    * @returns {boolean | *}
    */

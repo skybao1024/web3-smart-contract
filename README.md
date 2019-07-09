@@ -11,11 +11,11 @@ yarn install
 ```
 cp .env.example .env
 
-配置INFURA地址，钱包，秘钥，合约地址
+Configure the INFURA address, wallet, secret key, and contract address
 
-NODE_ENV=development INFURA 使用 ropsten，CHAIN_ID=3
+NODE_ENV=development INFURA use ropsten and CHAIN_ID=3
 
-NODE_ENV=production INFURA 使用 mainnet，CHAIN_ID=1
+NODE_ENV=production INFURA use mainnet and CHAIN_ID=1
 ```
 NODE_ENV=development
 
@@ -34,7 +34,7 @@ CUSTOM_CONTRACT_ADDRESS=0xaf40d7a404bfbd10432c05ad92e2df7bdeca8c52
 
 ## Running
 
-获取代币钱包余额
+Token Wallet Balance
 
 ```
 require('./env');
@@ -51,46 +51,48 @@ tokenHandleObj.setAbi('sky')
 
 ```
 
-智能合约监控
+Track Blockchain Transactions
 
 ```
-// 监控ETH
+// Track ETH
 require('./env');
 const watcherToken = require('./include/token_watcher');
 
-// 监控ETH transfer 记录
+// Track the ETH transactions
 const tokenWatcher = new watcherToken();
 tokenWatcher.watchEtherTransfers();
 
-// 指定监控地址和数量
+// Specify the address and quantity
 const tokenWatcher = new watcherToken();
 tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
+    .setFromAddress('0x207ba1e0bB0f4dd85bFB204f92C2b1DE52ccba21')
     .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
     .setAmount(100)
     .watchEtherTransfers();
 
 ```
 ```
-// 监控ERC20 Token
+// Track ERC20 Token
 require('./env');
 const watcherToken = require('./include/token_watcher');
 
-// 监控Token transfer 记录
+// Track the ERC20 token transactions
 const tokenWatcher = new watcherToken();
 tokenWatcher.watchTokenTransfers();
 
-// 指定监控地址和数量
+// Specify the address and quantity
 const tokenWatcher = new watcherToken();
 tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
+    .setFromAddress('0x207ba1e0bB0f4dd85bFB204f92C2b1DE52ccba21')
     .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
     .setAmount(100)
     .watchTokenTransfers();
 
 ```
-智能合约转账
+Contract Transfer
 
 ```
-// 合约转账
+// Transfer
 require('./env');
 const tokenHandle = require('./include/token_handle');
 
@@ -103,13 +105,13 @@ tokenHandleObj.setAbi('ctc')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
   .setContract(process.env.MAIN_CONTRACT_ADDRESS)
-  .setGwei(7)
+  .setGwei(20)
   .transfer(data['address'], data['amount']).then((res) => {
     console.log(res);
   }
 );
 
-// 合约批量转账
+// Mass Transfer
 const data = {
   'address': ['0xb59a6763b39e9257fe516874cf8bb680303ac444', '0xd8a41aaa9e0515a9f6f4e865e5220773273cfc88'],
   'amount': [10,10],
@@ -118,9 +120,9 @@ const tokenHandleObj = new tokenHandle();
 tokenHandleObj.setAbi('ctc_custom')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
-  .setContract(process.env.CUSTOM_CONTRACT_ADDRESS) // 智能合约地址
-  .setGwei(7)
-  .setTransferMethod('sendCandy') // 合约批量转账对应的方法
+  .setContract(process.env.CUSTOM_CONTRACT_ADDRESS) // The contract address
+  .setGwei(20)
+  .setTransferMethod('sendCandy') // Custom contract method
   .massTransfer(data['address'], data['amount'])
   .then((res) => {
     console.log(res);
@@ -129,9 +131,10 @@ tokenHandleObj.setAbi('ctc_custom')
 
 ```
 
-## 合约文件
+## Contract File
 
 ```
-案例中使用的合约文件在 src/resource/sol 目录下，可以自由修改生成自己的ERC20代币和批量转账合约。
+The contract file used in the case is in the src/resource/sol directory. 
+You are free to modify and generate your own ERC20 token and bulk transfer contract.
 ```
 

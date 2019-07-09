@@ -13,7 +13,7 @@ class TokenHandle {
   }
 
   /**
-   * 引入子合约ABI
+   * Set up the contract ABI
    * @param name
    */
   setAbi(name) {
@@ -22,7 +22,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置Decimal
+   * Set up the contract decimal
    * @param num
    */
   setDecimal(num) {
@@ -31,7 +31,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置奖池
+   * Set up the wallet
    * @param name
    * @returns {TokenHandle}
    */
@@ -41,7 +41,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置钱包秘钥
+   * Set up the wallet key
    * @param key
    * @returns {TokenHandle}
    */
@@ -51,7 +51,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置合约
+   * Set the contract address to use
    * @param contract
    * @returns {TokenHandle}
    */
@@ -61,7 +61,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置gwei
+   * Set up the Gwei
    * @param num
    * @returns {TokenHandle}
    */
@@ -75,7 +75,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置合约转账方法
+   * Set up the contract transfer method
    * @param method
    * @returns {TokenHandle}
    */
@@ -85,7 +85,7 @@ class TokenHandle {
   }
 
   /**
-   * 返回指定地址的余额
+   * Balance at the specified address
    * @param address
    * @returns {Promise<void>}
    */
@@ -96,7 +96,7 @@ class TokenHandle {
   }
 
   /**
-   * 智能合约转账
+   * Smart contract transfer
    * @param address
    * @param amount
    * @returns {Promise<void>}
@@ -135,7 +135,7 @@ class TokenHandle {
   }
 
   /**
-   * 智能合约批量转账
+   * Smart contract bulk transfer
    * @param address
    * @param amount
    * @returns {Promise<*>}
@@ -181,7 +181,7 @@ class TokenHandle {
   }
 
   /**
-   * 转账确认
+   * Transfer confirmation
    * @param tx
    * @returns {Promise<void>}
    */

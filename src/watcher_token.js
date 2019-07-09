@@ -1,5 +1,5 @@
 /**
- * 监控合约地址
+ * Track ERC20 Token
  */
 require('./env');
 const watcher_token = require('./include/token_watcher');

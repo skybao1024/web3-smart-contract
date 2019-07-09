@@ -1,5 +1,5 @@
 /**
- * 智能合约转账
+ * Transfer
  */
 require('./env');
 const tokenHandle = require('./include/token_handle');
