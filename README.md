@@ -34,6 +34,23 @@ CUSTOM_CONTRACT_ADDRESS=0xc4b8c61aea670dc56b7443e796035641c04be0fe
 
 ## Running
 
+获取代币钱包余额
+
+```
+require('./env');
+const tokenHandle = require('./include/token_handle');
+
+const tokenHandleObj = new tokenHandle();
+tokenHandleObj.setAbi('sky')
+    .setContract(process.env.MAIN_CONTRACT_ADDRESS)
+    .balanceOf('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
+    .then((res) => {
+        console.log(res);
+    }
+);
+
+```
+
 智能合约监控
 
 ```

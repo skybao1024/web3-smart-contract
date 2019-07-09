@@ -33,7 +33,7 @@ class TokenHandle {
   /**
    * 设置奖池
    * @param name
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setWallet(name) {
     this.token_wallet = name;
@@ -43,7 +43,7 @@ class TokenHandle {
   /**
    * 设置钱包秘钥
    * @param key
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setWalletKey(key) {
     this.privateKey = Buffer.from(key, 'hex');
@@ -53,7 +53,7 @@ class TokenHandle {
   /**
    * 设置合约
    * @param contract
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setContract(contract) {
     this.token_contract = contract;
@@ -63,7 +63,7 @@ class TokenHandle {
   /**
    * 设置gwei
    * @param num
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setGwei(num) {
     let gwei = num;
