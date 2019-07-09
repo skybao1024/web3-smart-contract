@@ -1,5 +1,6 @@
 const Web3 = require('web3');
 const Transaction = require('ethereumjs-tx');
+const Decimal = require('decimal.js');
 
 class TokenHandle {
 
@@ -18,6 +19,16 @@ class TokenHandle {
    */
   setAbi(name) {
     this.token_abi = require('../resource/abi/'+name);
+    return this;
+  }
+
+  /**
+   * Set up the main contract ABI
+   * @param name
+   * @returns {TokenHandle}
+   */
+  setMainAbi(name) {
+    this.token_main_abi = require('../resource/abi/'+name);
     return this;
   }
 
@@ -61,6 +72,16 @@ class TokenHandle {
   }
 
   /**
+   * Set the main contract address to use
+   * @param contract
+   * @returns {TokenHandle}
+   */
+  setMainContract(contract) {
+    this.token_main_contract = contract;
+    return this;
+  }
+
+  /**
    * Set up the Gwei
    * @param num
    * @returns {TokenHandle}
@@ -90,8 +111,8 @@ class TokenHandle {
    * @returns {Promise<void>}
    */
   async balanceOf(address) {
-    const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract);
-    const balance = await contract.methods.balanceOf(address).call();
+    const connection = new this.web3.eth.Contract(this.token_main_abi, this.token_main_contract);
+    const balance = await connection.methods.balanceOf(address).call();
     return balance;
   }
 
@@ -108,12 +129,16 @@ class TokenHandle {
       return false;
     }
     const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract, { from: this.token_wallet, });
-
     const decimal = this.token_decimals;
     console.log(`Decimal is: ${decimal} \n`);
+    const num = amount * (10 ** decimal);
+    const tokenBalance = await contract.methods.balanceOf(this.token_wallet).call();
+    console.log(`Token balance is: ${tokenBalance} \n`);
+    if (tokenBalance < num) {
+      return false;
+    }
 
     const txCount = await this.web3.eth.getTransactionCount(this.token_wallet);
-    const num = amount * (10 ** decimal);
     const amountNum = this.web3.utils.toHex(num);
     const gasPrice = this.gwei * 1e9;
     const gasLimit = 210000;
@@ -146,12 +171,20 @@ class TokenHandle {
     if (ethBalance === 0) {
       return false;
     }
+    const decimal = this.token_decimals;
+    console.log(`Decimal is: ${decimal} \n`);
+    if (this.token_main_abi && this.token_main_contract) {
+      const tokenBalance = await this.balanceOf(this.token_contract);
+      const amountSum = amount.reduce((prev, cur) => new Decimal(prev).add(new Decimal(cur)), 0);
+      const amountNum = amountSum * (10 ** decimal);
+      console.log(`Token balance is: ${tokenBalance} \n`);
+      if (tokenBalance < amountNum) {
+        return false;
+      }
+    }
     const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract, { from: this.token_wallet, });
 
     const addressCount = address.length;
-
-    const decimal = this.token_decimals;
-    console.log(`Decimal is: ${decimal} \n`);
 
     const txCount = await this.web3.eth.getTransactionCount(this.token_wallet);
     const amountList = amount.map((num) => {

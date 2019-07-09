@@ -41,8 +41,8 @@ require('./env');
 const tokenHandle = require('./include/token_handle');
 
 const tokenHandleObj = new tokenHandle();
-tokenHandleObj.setAbi('sky')
-    .setContract(process.env.MAIN_CONTRACT_ADDRESS)
+tokenHandleObj.setMainAbi('sky')
+    .setMainContract(process.env.MAIN_CONTRACT_ADDRESS)
     .balanceOf('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
     .then((res) => {
         console.log(res);
@@ -101,7 +101,7 @@ const data = {
   'amount': 10,
 };
 const tokenHandleObj = new tokenHandle();
-tokenHandleObj.setAbi('ctc')
+tokenHandleObj.setAbi('sky')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
   .setContract(process.env.MAIN_CONTRACT_ADDRESS)
@@ -120,10 +120,12 @@ const data = {
   'amount': [10,10],
 };
 const tokenHandleObj = new tokenHandle();
-tokenHandleObj.setAbi('ctc_custom')
+tokenHandleObj.setAbi('sky_custom')
+  .setMainAbi('sky')
   .setWallet(process.env.MAIN_WALLET)
   .setWalletKey(process.env.MAIN_PRIVATE_KEY)
   .setContract(process.env.CUSTOM_CONTRACT_ADDRESS) // The contract address
+  .setMainContract(process.env.MAIN_CONTRACT_ADDRESS) // The contract address
   .setGwei(20)
   .setTransferMethod('sendCandy') // Custom contract method
   .massTransfer(data['address'], data['amount'])
