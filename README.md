@@ -65,7 +65,6 @@ tokenWatcher.watchEtherTransfers();
 // Specify the address and quantity
 const tokenWatcher = new watcherToken();
 tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
-    .setFromAddress('0x207ba1e0bB0f4dd85bFB204f92C2b1DE52ccba21')
     .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
     .setAmount(100)
     .watchEtherTransfers();
@@ -83,7 +82,6 @@ tokenWatcher.watchTokenTransfers();
 // Specify the address and quantity
 const tokenWatcher = new watcherToken();
 tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
-    .setFromAddress('0x207ba1e0bB0f4dd85bFB204f92C2b1DE52ccba21')
     .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
     .setAmount(100)
     .watchTokenTransfers();
