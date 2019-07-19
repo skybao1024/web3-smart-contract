@@ -47,8 +47,8 @@ tokenWatcher.watchEtherTransfers();
 
 // 指定监控地址和数量
 const tokenWatcher = new watcherToken();
-tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
-    .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
+tokenWatcher.setFromAddress(['0x82c18159ad550c6a8015f409526fc5a17e283bb4'])
+    .setToAddress(['0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8'])
     .setAmount(100)
     .watchEtherTransfers();
 
@@ -64,8 +64,8 @@ tokenWatcher.watchTokenTransfers();
 
 // 指定监控地址和数量
 const tokenWatcher = new watcherToken();
-tokenWatcher.setFromAddress('0x82c18159ad550c6a8015f409526fc5a17e283bb4')
-    .setToAddress('0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8')
+tokenWatcher.setFromAddress(['0x82c18159ad550c6a8015f409526fc5a17e283bb4'])
+    .setToAddress(['0x514de9dca4f3730edb14ca5f11a07d3b8d2445e8'])
     .setAmount(100)
     .watchTokenTransfers();
 
