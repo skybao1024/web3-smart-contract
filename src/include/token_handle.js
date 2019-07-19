@@ -1,5 +1,6 @@
 const Web3 = require('web3');
 const Transaction = require('ethereumjs-tx');
+const Decimal = require('decimal.js');
 
 class TokenHandle {
 
@@ -13,7 +14,7 @@ class TokenHandle {
   }
 
   /**
-   * 引入子合约ABI
+   * Set up the contract ABI
    * @param name
    */
   setAbi(name) {
@@ -22,7 +23,17 @@ class TokenHandle {
   }
 
   /**
-   * 设置Decimal
+   * Set up the main contract ABI
+   * @param name
+   * @returns {TokenHandle}
+   */
+  setMainAbi(name) {
+    this.token_main_abi = require('../resource/abi/'+name);
+    return this;
+  }
+
+  /**
+   * Set up the contract decimal
    * @param num
    */
   setDecimal(num) {
@@ -31,9 +42,9 @@ class TokenHandle {
   }
 
   /**
-   * 设置奖池
+   * Set up the wallet
    * @param name
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setWallet(name) {
     this.token_wallet = name;
@@ -41,9 +52,9 @@ class TokenHandle {
   }
 
   /**
-   * 设置钱包秘钥
+   * Set up the wallet key
    * @param key
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setWalletKey(key) {
     this.privateKey = Buffer.from(key, 'hex');
@@ -51,9 +62,9 @@ class TokenHandle {
   }
 
   /**
-   * 设置合约
+   * Set the contract address to use
    * @param contract
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setContract(contract) {
     this.token_contract = contract;
@@ -61,9 +72,19 @@ class TokenHandle {
   }
 
   /**
-   * 设置gwei
+   * Set the main contract address to use
+   * @param contract
+   * @returns {TokenHandle}
+   */
+  setMainContract(contract) {
+    this.token_main_contract = contract;
+    return this;
+  }
+
+  /**
+   * Set up the Gwei
    * @param num
-   * @returns {QfpContractService}
+   * @returns {TokenHandle}
    */
   setGwei(num) {
     let gwei = num;
@@ -75,7 +96,7 @@ class TokenHandle {
   }
 
   /**
-   * 设置合约转账方法
+   * Set up the contract transfer method
    * @param method
    * @returns {TokenHandle}
    */
@@ -85,18 +106,18 @@ class TokenHandle {
   }
 
   /**
-   * 返回指定地址的余额
+   * Balance at the specified address
    * @param address
    * @returns {Promise<void>}
    */
   async balanceOf(address) {
-    const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract);
-    const balance = await contract.methods.balanceOf(address).call();
+    const connection = new this.web3.eth.Contract(this.token_main_abi, this.token_main_contract);
+    const balance = await connection.methods.balanceOf(address).call();
     return balance;
   }
 
   /**
-   * 智能合约转账
+   * Smart contract transfer
    * @param address
    * @param amount
    * @returns {Promise<void>}
@@ -108,12 +129,16 @@ class TokenHandle {
       return false;
     }
     const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract, { from: this.token_wallet, });
-
     const decimal = this.token_decimals;
     console.log(`Decimal is: ${decimal} \n`);
+    const num = amount * (10 ** decimal);
+    const tokenBalance = await contract.methods.balanceOf(this.token_wallet).call();
+    console.log(`Token balance is: ${tokenBalance} \n`);
+    if (tokenBalance < num) {
+      return false;
+    }
 
     const txCount = await this.web3.eth.getTransactionCount(this.token_wallet);
-    const num = amount * (10 ** decimal);
     const amountNum = this.web3.utils.toHex(num);
     const gasPrice = this.gwei * 1e9;
     const gasLimit = 210000;
@@ -135,7 +160,7 @@ class TokenHandle {
   }
 
   /**
-   * 智能合约批量转账
+   * Smart contract bulk transfer
    * @param address
    * @param amount
    * @returns {Promise<*>}
@@ -146,12 +171,20 @@ class TokenHandle {
     if (ethBalance === 0) {
       return false;
     }
+    const decimal = this.token_decimals;
+    console.log(`Decimal is: ${decimal} \n`);
+    if (this.token_main_abi && this.token_main_contract) {
+      const tokenBalance = await this.balanceOf(this.token_contract);
+      const amountSum = amount.reduce((prev, cur) => new Decimal(prev).add(new Decimal(cur)), 0);
+      const amountNum = amountSum * (10 ** decimal);
+      console.log(`Token balance is: ${tokenBalance} \n`);
+      if (tokenBalance < amountNum) {
+        return false;
+      }
+    }
     const contract = new this.web3.eth.Contract(this.token_abi, this.token_contract, { from: this.token_wallet, });
 
     const addressCount = address.length;
-
-    const decimal = this.token_decimals;
-    console.log(`Decimal is: ${decimal} \n`);
 
     const txCount = await this.web3.eth.getTransactionCount(this.token_wallet);
     const amountList = amount.map((num) => {
@@ -170,9 +203,10 @@ class TokenHandle {
       gasLimit: this.web3.utils.toHex(gasLimit),
       to: this.token_contract,
       value: this.web3.utils.toHex(0),
-      data: contract.methods[this.transfer_method](address, amountList).encodeABI(), // sendToken 自定义合约批量打币方法
+      data: contract.methods[this.transfer_method](address, amountList).encodeABI(), // 自定义合约批量打币方法
       chainId: parseInt(process.env.CHAIN_ID),
     };
+    console.log(`txParams is: ${txParams} \n`);
     const tx = new Transaction(txParams);
     tx.sign(this.privateKey);
     const confirmation = await this.confirmation(tx);
@@ -180,7 +214,7 @@ class TokenHandle {
   }
 
   /**
-   * 转账确认
+   * Transfer confirmation
    * @param tx
    * @returns {Promise<void>}
    */

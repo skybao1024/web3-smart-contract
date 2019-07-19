@@ -1,5 +1,5 @@
 /**
- * 监控ETH
+ * Track ETH
  */
 require('./env');
 const watcherToken = require('./include/token_watcher');
